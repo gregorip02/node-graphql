@@ -1,0 +1,20 @@
+version: "3.4"
+
+volumes:
+  yarn-cache:
+    driver: local
+
+services:
+  graphql:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /opt/app
+    volumes:
+      - yarn-cache:/usr/local/share/.cache/yarn/
+      - $PWD:/opt/app
+    env_file:
+      - $PWD/.env
+    ports:
+      - "${EXTERNAL_PORT}:${PORT}"
+    command: ["npm", "run", "start:dev"]
