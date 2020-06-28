@@ -3,6 +3,8 @@ version: "3.4"
 volumes:
   yarn-cache:
     driver: local
+  mongo-data:
+    driver: local
 
 services:
   graphql:
@@ -17,4 +19,18 @@ services:
       - $PWD/.env
     ports:
       - "${EXTERNAL_PORT}:${PORT}"
-    command: ["npm", "run", "start:dev"]
+    command: ["npm", "start"]
+    depends_on:
+      - mongodb
+
+  mongodb:
+    image: mongo:3.6-xenial
+    env_file:
+      - $PWD/.env
+    environment:
+      MONGO_INITDB_DATABASE: ${MONGODB_DATABASE}
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_USERNAME}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_PASSWORD}
+    volumes:
+      - mongo-data:/data/db
+      - $PWD/mongodb-init.sh:/docker-entrypoint-initdb.d/mongodb-init.sh

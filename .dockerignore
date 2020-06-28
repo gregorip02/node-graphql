@@ -3,3 +3,5 @@ node_modules
 .gitignore
 LICENCE
 README.md
+docker-compose.yml
+docker-compose.override.yml

@@ -8,6 +8,7 @@
     "start": "node src/index.js",
     "start:dev": "nodemon --exec babel-node src/index.js",
     "up": "docker-compose up --build --remove-orphans",
+    "stop": "docker-compose stop",
     "down": "docker-compose down"
   },
   "author": {
@@ -24,7 +25,7 @@
   },
   "dependencies": {
     "apollo-server": "^2.15.0",
-    "dotenv": "^8.2.0",
-    "graphql": "^15.1.0"
+    "graphql": "^15.1.0",
+    "mongoose": "^5.9.20"
   }
 }
