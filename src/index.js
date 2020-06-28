@@ -39,6 +39,8 @@ mongoose.connection.on('connected', () => {
   // The `listen` method launches a web server.
   server.listen({ port }).then(({ url }) => {
     console.log(`🚀 Server ready at ${url}`)
+    // The external port represent the port exposed by docker container.
+    // Here is where the app is exposed to the "world".
     if (process.env.EXTERNAL_PORT) {
       const externalUrl = url.replace(port, process.env.EXTERNAL_PORT)
       console.log(`📤 Exposing at ${externalUrl}`)
