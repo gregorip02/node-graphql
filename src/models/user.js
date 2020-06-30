@@ -11,9 +11,16 @@ const UserSchema = new Schema({
   }
 })
 
-UserSchema.pre('save', function () {
+UserSchema.pre('save', () => {
+  // TODO: Hash user password with bcrypt.js
   console.log('Pre-saving user in db')
 })
+
+UserSchema.methods.toJSON = function () {
+  return {
+    email: this.email
+  }
+}
 
 const User = model('User', UserSchema)
 

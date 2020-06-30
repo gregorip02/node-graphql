@@ -1,4 +1,5 @@
 import { gql } from 'apollo-server'
+import { login, register } from './repository/auth'
 
 // A schema is a collection of type definitions (hence "typeDefs")
 // that together define the "shape" of queries that are executed
@@ -8,16 +9,23 @@ export const Types = gql`
     email: String!
   }
 
+  type authenticatedUser {
+    user: User!
+    token: String!
+  }
+
   input createUserInput {
     email: String!
+    password: String!
   }
 
   type Query {
-    users: [User!]
+    ping: String!
   }
 
   type Mutation {
-    createUser(email: String!): User!
+    register(input: createUserInput!): authenticatedUser!
+    login(input: createUserInput!): authenticatedUser!
   }
 `
 
@@ -26,16 +34,9 @@ export const Types = gql`
 // array above.
 export const Resolvers = {
   Query: {
-    users: async () => {
-      return []
-    }
+    ping: async () => 'pong'
   },
   Mutation: {
-    createUser: async (_, { email }) => {
-      console.log(email)
-      return {
-        email
-      }
-    }
+    login, register
   }
 }
