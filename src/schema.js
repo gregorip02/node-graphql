@@ -1,4 +1,4 @@
-import { gql } from 'apollo-server'
+import { gql } from 'apollo-server-express'
 import { login, register } from './repository/auth'
 
 // A schema is a collection of type definitions (hence "typeDefs")
