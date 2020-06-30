@@ -3,6 +3,11 @@
 Esta es una nueva aventura de codigo, en esta ocación estoy construyendo
 un API GraphQL con Typescript & Mongoose sobre node.js.
 
+## Requerimientos
+
+- Docker
+- Docker Compose
+
 ## Ejecuta esto
 
 Crea tu archivo de configuración con el siguiente comando.
@@ -29,8 +34,11 @@ services:
 Levanta el entorno.
 
 ```bash
+# Using docker
+docker-compose up --build --remove-orphans -d
+
 # Using yarn
-yarn run up
+yarn up
 
 # Using npm
 npm run up

@@ -10,6 +10,6 @@ RUN yarn
 
 COPY . .
 
-EXPOSE ${EXTERNAL_PORT}
+EXPOSE ${PORT}
 
 CMD ["npm", "start"]

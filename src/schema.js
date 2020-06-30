@@ -1,42 +1,41 @@
-import { gql } from 'apollo-server';
-import Book from './models/Book.js';
+import { gql } from 'apollo-server'
 
 // A schema is a collection of type definitions (hence "typeDefs")
-// that together define the "shape" of queries that are executed against
-// your data.
+// that together define the "shape" of queries that are executed
+// against your data.
 export const Types = gql`
-  # This "Book" type defines the queryable fields for every book in our data source.
-  type Book {
-    title: String
-    author: String
+  type User {
+    email: String!
   }
 
-  # The "Query" type is special: it lists all of the available queries that
-  # clients can execute, along with the return type for each. In this
-  # case, the "books" query returns an array of zero or more Books (defined above).
+  input createUserInput {
+    email: String!
+  }
+
   type Query {
-    books: [Book]
+    users: [User!]
   }
 
   type Mutation {
-    createBook(title: String!, author: String!): Book!
+    createUser(email: String!): User!
   }
-`;
+`
 
-// Resolvers define the technique for fetching the types defined in the
-// schema. This resolver retrieves books from the "books" array above.
+// Resolvers define the technique for fetching the types defined
+// in the schema. This resolver retrieves books from the "books"
+// array above.
 export const Resolvers = {
   Query: {
-    books: async () => Book.find({})
+    users: async () => {
+      return []
+    }
   },
-
   Mutation: {
-    createBook: async (_, { title, author }) => {
-      const book = await Book.create({
-        title, author
-      });
-
-      return book;
+    createUser: async (_, { email }) => {
+      console.log(email)
+      return {
+        email
+      }
     }
   }
-};
+}
