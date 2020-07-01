@@ -1,18 +1,39 @@
 import mongo from './services/mongo'
-import server from './services/server'
+import graphql from './services/server'
+import session from './services/session'
+import express from 'express'
 
-mongo.connect().then(() => {
-  console.info('😁 Connected with MongoDB')
+const app = express()
 
-  // Starting graphql server
-  server.listen({ port: process.env.PORT || 3000 }).then(({ url, port }) => {
-    console.info(`🚀 Server ready at ${url}`)
+const port = process.env.PORT || 3000
+const host = process.env.HOST || '0.0.0.0'
 
-    // The external port represent the port exposed by docker container.
-    // Here is where the app is exposed to the "world".
-    if (process.env.EXTERNAL_PORT) {
-      const externalUrl = url.replace(port, process.env.EXTERNAL_PORT)
-      console.info(`📤 Exposing at ${externalUrl}`)
-    }
+session.configure(app, {
+  // Replace default session configurations here.
+})
+
+// For healthchecks or some like that.
+app.get('/', (_, res) => {
+  res.json({
+    message: 'It works!'
+  })
+})
+
+graphql.applyMiddleware({ app })
+
+// Handle every http route with 404.
+app.use('*', (_, res) => {
+  res.status(404).json({
+    error: 'Page not found'
+  })
+})
+
+mongo.connect().then(async () => {
+  // Start http and graphql server
+  await app.listen({ port, host }, () => {
+    const url = `http://${host}:${port}`;
+
+    console.info(`🚀 HTTP Server listening on ${url}`)
+    console.info(`🚀 GraphQL Server ready on ${url}${graphql.graphqlPath}`)
   })
 })

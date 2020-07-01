@@ -8,9 +8,4 @@ export const server = new ApolloServer({
   resolvers: Resolvers
 })
 
-// TODO: Use apollo-server-express for apply middlewares like sessions.
-// server.applyMiddleware((req, res, next) => {
-//
-// })
-
 export default server

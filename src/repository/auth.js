@@ -8,20 +8,18 @@ export const register = async (_, { input: { email, password } }) => {
   // Return authenticated user ;)
   return await login(null, {
     input: await User.create({ email, password }),
-    registered: true
-  }, true)
+  })
 }
 
-export const login = async (_, { input: { email, password }, registered = false }) => {
-  if (!registered && !await User.findOne({ email })) {
+export const login = async (_, { input: { email, password } }) => {
+  const user = await User.findOne({ email })
+
+  if (! user || ! user.checkHash(password)) {
     // Social engineering here.
     throw Error('Incorrect email or password')
   }
 
-  // TODO: Check password hash
-  // bla, bla, bla...
-
-  // TODO: Generate token or server-side session
+  // TODO: Generate token and server-side session
   // bla, bla, bla...
 
   return {
