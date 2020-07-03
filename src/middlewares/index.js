@@ -1,13 +1,13 @@
 import authMiddlewares from './auth'
 
-export const pipe = (post, args, context, root, middlewares, onFinish) => {
+export const pipe = (post, args, context, info, middlewares, onFinish) => {
   middlewares.forEach((middlewareHandler) => {
-    if (! middlewareHandler(args, context, post, root)) {
+    if (! middlewareHandler(args, context, post, info)) {
       throw Error('Error handling middleware\n')
     }
   })
 
-  return onFinish(post, args, context, root)
+  return onFinish(post, args, context, info)
 }
 
 export default {
