@@ -1,5 +1,3 @@
-# ¡Hola!
-
 Esta es una nueva aventura de codigo, en esta ocación estoy construyendo
 un API GraphQL con Typescript & Mongoose sobre node.js.
 
